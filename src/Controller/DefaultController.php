@@ -8,20 +8,22 @@ use Symfony\Component\Routing\Attribute\Route;
 
 # On peut définir ici un préfixe pour les URL de toutes les routes des actions de la classe DefaultController
 #[Route(
-    path: '/'
+    path: '/',
+
 )]
 class DefaultController extends AbstractController
 {
     #[Route(
-        path: '', // L'URL auquel répondra cette action sera donc /
+        path: '/{_locale}', // L'URL auquel répondra cette action sera donc /
         name: 'app_default_index',
+        requirements: ['_locale' => '%app.supported_locales%'],
+        defaults: ['_locale' => 'fr']
     )]
     public function index(): Response
     {
         // On récupère les données à transmettre à la vue
         // Ici c'est la date du jour, mais ce pourrait être des données du Modèle
         $now = new \DateTime("now");
-
         // Et on retourne une réponse HTTP au format HTML (la vue)
         //   fabriquée à partir d'un template Twig
         //   auquel on transmet les données qu'il doit mettre en forme
@@ -31,8 +33,10 @@ class DefaultController extends AbstractController
     }
 
     #[Route(
-        path: 'test', // L'URL auquel répondra cette action sera donc /test
+        path: '/{_locale}/test', // L'URL auquel répondra cette action sera donc /test
         name: 'app_default_test',
+        requirements: ['_locale' => '%app.supported_locales%'],
+        defaults: ['_locale' => 'fr']
     )]
     public function test(): Response
     {
@@ -42,7 +46,14 @@ class DefaultController extends AbstractController
     }
 
     // TODO : route et contrôleur de la page de contact
-    // public function contact(): Response
-    // {
-    // }
+    #[Route(
+        path: '/{_locale}/contact', // L'URL auquel répondra cette action sera donc /test
+        name: 'contact',
+        requirements: ['_locale' => '%app.supported_locales%']
+    )]
+     public function contact(): Response
+     {
+         return $this->render('default/contact.html.twig');
+     }
+
 }
