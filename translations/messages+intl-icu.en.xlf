@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="dsIlhhb" resname="template.navbar.html.twig.Accueil">
+        <source>template.navbar.html.twig.Accueil</source>
+        <target>Accueil shop</target>
+      </trans-unit>
+      <trans-unit id="eyQmnGw" resname="template.navbar.html.twig.boutique">
+        <source>template.navbar.html.twig.boutique</source>
+        <target>shop</target>
+      </trans-unit>
+      <trans-unit id="ZPK1nQ8" resname="template.navbar.html.twig.Contact">
+        <source>template.navbar.html.twig.Contact</source>
+        <target>contact</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
