@@ -86,5 +86,4 @@ class PanierService
       /* A COMPLETER */
         return $this->panier;
     }
-
 }
