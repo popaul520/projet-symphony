@@ -1,21 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+{% block title %}Mon Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container mt-4">
+        <h1 class="mb-4">Votre Panier</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {% if items is not empty %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Produit</th>
+                        <th class="text-center">Prix Unitaire</th>
+                        <th class="text-center">Quantité</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <strong>{{ item.produit.libelle }}</strong>
+                            </td>
+                            <td class="text-center">{{ item.produit.prix }} €</td>
+                            <td class="text-center">
+                                {# On affiche la quantité actuelle #}
+                                <span class="badge badge-light border">{{ item.quantite }}</span>
+                            </td>
+                            <td class="text-center">
+                                {# Calcul du sous-total par produit #}
+                                {{ item.produit.prix * item.quantite }} €
+                            </td>
+                            <td class="text-center">
+                                {# Boutons d'action utilisant tes routes du contrôleur #}
+                                <div class="btn-group" role="group">
+                                    <a href="{{ path('app_panier_ajouter', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-success" title="Ajouter 1"></a>
+                                    <a href="{{ path('app_panier_enlever', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-warning" title="Enlever 1"></a>
+                                    <a href="{{ path('app_panier_supprimer', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-danger" title="Supprimer">Supprimer</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot class="table-secondary">
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Montant Total à régler :</strong></td>
+                        <td class="text-center"><strong>{{ total }} €</strong></td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/users/info/pub/2a/R4.01/TP/collero/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>/users/info/pub/2a/R4.01/TP/collero/templates/panier/index.html.twig</code></li>
-    </ul>
-</div>
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ path('app_panier_vider') }}" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Vider le panier
+                </a>
+                <div>
+                    <a href="{{ path('app_boutique_index') }}" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Continuer mes achats
+                    </a>
+                </div>
+            </div>
+
+        {% else %}
+            {# Message affiché si le panier est vide #}
+            <div class="alert alert-info shadow-sm">
+                <h4 class="alert-heading">Votre panier est vide !</h4>
+                <p>Il semblerait que vous n'ayez pas encore ajouté de produits.</p>
+                <hr>
+                <a href="{{ path('app_boutique_index') }}" class="btn btn-info">Aller à la boutique</a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
-
