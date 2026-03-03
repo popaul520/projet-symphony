@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Service\BoutiqueService;
+use App\Service\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class PanierController extends AbstractController
 {
+    private PanierService $panierService;
+    private BoutiqueService $boutiqueService;
 
     public function __construct(PanierService $panierService, BoutiqueService $boutiqueService)
     {
