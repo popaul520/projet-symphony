@@ -24,10 +24,27 @@
             <li class="nav-item">
 
             </li>
-			{# TODO : ajouter au fil des TPs les autres éléments du menu #}
+            <li class="nav-item {% if app.request.attributes.get('_route') == 'app_panier_index' %}active{% endif %}">
+                <a class="nav-link" href="{{ path('app_panier_index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    {# Traduction du libellé #}
+                    {% trans %}panier{% endtrans %}
+
+                    {# Affichage du nombre de produits via le contrôleur imbriqué #}
+                    <span class="badge badge-pill badge-danger">
+            {{ render(controller('App\\Controller\\PanierController::nombreProduits')) }}
+        </span>
+                </a>
+            </li>
 		</ul>
 		<!-- Début champ de recherche -->
-		{# TODO #}
+        <form class="form-inline my-2 my-lg-0 ml-3">
+            <input id="search-input" class="form-control mr-sm-2" type="search"
+                   placeholder="{% trans %}rechercher{% endtrans %}" aria-label="Search">
+            <button id="search-button" class="btn btn-outline-info my-2 my-sm-0" type="button">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
 		<!-- Fin champ de recherche -->
 		<!-- Début menu des monnaies -->
 		{# TODO #}

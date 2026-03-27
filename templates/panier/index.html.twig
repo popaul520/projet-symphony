@@ -4,74 +4,65 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1 class="mb-4">Votre Panier</h1>
+        <h1>Votre Panier</h1>
 
-        {% if items is not empty %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped align-middle">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Produit</th>
-                        <th class="text-center">Prix Unitaire</th>
-                        <th class="text-center">Quantité</th>
-                        <th class="text-center">Total</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                        <tr>
-                            <td>
-                                <strong>{{ item.produit.libelle }}</strong>
-                            </td>
-                            <td class="text-center">{{ item.produit.prix }} €</td>
-                            <td class="text-center">
-                                {# On affiche la quantité actuelle #}
-                                <span class="badge badge-light border">{{ item.quantite }}</span>
-                            </td>
-                            <td class="text-center">
-                                {# Calcul du sous-total par produit #}
-                                {{ item.produit.prix * item.quantite }} €
-                            </td>
-                            <td class="text-center">
-                                {# Boutons d'action utilisant tes routes du contrôleur #}
-                                <div class="btn-group" role="group">
-                                    <a href="{{ path('app_panier_ajouter', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-success" title="Ajouter 1"></a>
-                                    <a href="{{ path('app_panier_enlever', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-warning" title="Enlever 1"></a>
-                                    <a href="{{ path('app_panier_supprimer', {idProduit: item.produit.id}) }}" class="btn btn-sm btn-outline-danger" title="Supprimer">Supprimer</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                    <tfoot class="table-secondary">
-                    <tr>
-                        <td colspan="3" class="text-right"><strong>Montant Total à régler :</strong></td>
-                        <td class="text-center"><strong>{{ total }} €</strong></td>
-                        <td></td>
-                    </tr>
-                    </tfoot>
-                </table>
+        {% if items is empty %}
+            {# Affichage quand le panier est vide #}
+            <div class="alert alert-info shadow-sm p-5 text-center">
+                <h2 class="display-4">Ton panier est vide !</h2>
+                <p class="lead">Voudrais-tu briser notre petit coeur fragile de commerçant ?</p>
+                <hr class="my-4">
+                <a href="{{ path('app_boutique_index') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-shopping-bag"></i> Retourner à la boutique
+                </a>
             </div>
+        {% else %}
+            {# Affichage du tableau si le panier contient des produits #}
+            <table class="table table-hover mt-4">
+                <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.produit.libelle }}</td>
+                        <td>{{ item.produit.prix }} €</td>
+                        <td>
+                            <a href="{{ path('app_panier_enlever', {'idProduit': item.produit.id}) }}" class="btn btn-sm btn-outline-secondary">-</a>
+                            <span class="mx-2">{{ item.quantite }}</span>
+                            <a href="{{ path('app_panier_ajouter', {'idProduit': item.produit.id}) }}" class="btn btn-sm btn-outline-secondary">+</a>
+                        </td>
+                        <td>{{ item.produit.prix * item.quantite }} €</td>
+                        <td>
+                            <a href="{{ path('app_panier_supprimer', {'idProduit': item.produit.id}) }}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr class="table-active font-weight-bold">
+                    <td colspan="3" class="text-right">Total Général :</td>
+                    <td>{{ total }} €</td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
 
             <div class="d-flex justify-content-between mt-4">
-                <a href="{{ path('app_panier_vider') }}" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Vider le panier
+                <a href="{{ path('app_panier_vider') }}" class="btn btn-outline-danger" onclick="return confirm('Vider tout le panier ?')">
+                    <i class="fas fa-ghost"></i> Vider le panier
                 </a>
-                <div>
-                    <a href="{{ path('app_boutique_index') }}" class="btn btn-primary">
-                        <i class="fas fa-shopping-bag"></i> Continuer mes achats
-                    </a>
-                </div>
-            </div>
-
-        {% else %}
-            {# Message affiché si le panier est vide #}
-            <div class="alert alert-info shadow-sm">
-                <h4 class="alert-heading">Votre panier est vide !</h4>
-                <p>Il semblerait que vous n'ayez pas encore ajouté de produits.</p>
-                <hr>
-                <a href="{{ path('app_boutique_index') }}" class="btn btn-info">Aller à la boutique</a>
+                <button class="btn btn-success btn-lg">
+                    <i class="fas fa-credit-card"></i> Passer la commande
+                </button>
             </div>
         {% endif %}
     </div>

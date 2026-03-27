@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/{_locale}/panier', requirements: ['_locale' => '%app.supported_locales%'], defaults: ['_locale' => 'fr'])]
 final class PanierController extends AbstractController
 {
     private PanierService $panierService;
@@ -18,112 +19,53 @@ final class PanierController extends AbstractController
         $this->panierService = $panierService;
         $this->boutiqueService = $boutiqueService;
     }
-    /*
-    #[Route('/panier', name: 'app_panier')]
-    public function index(): Response
-    {
 
-        $product =
-            if(!$product){
-                throw  $this->createNotFoundExeception('le profuit n\'existe pas');
-            }
-        return $this->render('panier/index.html.twig', [
-            'controller_name' => 'PanierController',
-        ]);
-    }*/
-    #[Route(
-    path: '/{_locale}/panier', // L'URL auquel répondra cette action sera donc /test
-    name: 'app_panier_index',
-    requirements: ['_locale' => '%app.supported_locales%'],
-    defaults: ['_locale' => 'fr']
-    )]
+    #[Route('', name: 'app_panier_index')]
     public function index(): Response
     {
         return $this->render('panier/index.html.twig', [
-            'contenu' => $this->panierService->getContenu(),
+            // On utilise 'items' pour correspondre à ton template Twig
+            'items' => $this->panierService->getContenu(),
             'total' => $this->panierService->getTotal(),
-            'nbProduits' => $this->panierService->getNombreProduits(),
         ]);
     }
 
-
-    #[Route(
-        path: '/{_locale}/panier/ajouter{idProduit}/{quantite}', // L'URL auquel répondra cette action sera donc /test
-        name: 'app_panier_ajouter',
-        requirements: ['_locale' => '%app.supported_locales%'],
-        defaults: ['_locale' => 'fr']
-    )]
-    #[Route('/ajouter/{id}', name: 'app_panier_ajouter')]
-    public function ajouter(int $id): Response
+    #[Route('/ajouter/{idProduit}/{quantite}', name: 'app_panier_ajouter', defaults: ['quantite' => 1])]
+    public function ajouter(int $idProduit, int $quantite): Response
     {
-        $produit = $this->boutiqueService->findProduitById($id);
+        $produit = $this->boutiqueService->findProduitById($idProduit);
         if (!$produit) {
-            throw $this->createNotFoundException("Le produit d'id $id n'existe pas.");
+            throw $this->createNotFoundException("Le produit n'existe pas.");
         }
-        $this->panierService->ajouterProduit($id);
+        $this->panierService->ajouterProduit($idProduit, $quantite);
         return $this->redirectToRoute('app_panier_index');
     }
 
-    #[Route(
-        path: '/{_locale}/panier/enlever/{idProduit}/{quantite}', // L'URL auquel répondra cette action sera donc /test
-        name: 'app_panier_enlever',
-        requirements: ['_locale' => '%app.supported_locales%'],
-        defaults: ['_locale' => 'fr']
-    )]
-    public function enlever(int $id): Response
+    #[Route('/enlever/{idProduit}/{quantite}', name: 'app_panier_enlever', defaults: ['quantite' => 1])]
+    public function enlever(int $idProduit, int $quantite): Response
     {
-        $produit = $this->boutiqueService->findProduitById($id);
-
-        if (!$produit) {
-            throw $this->createNotFoundException("Le produit d'id $id n'existe pas.");
-        }
-        $this->panierService->enleverProduit($id);
+        $this->panierService->enleverProduit($idProduit, $quantite);
         return $this->redirectToRoute('app_panier_index');
     }
 
-
-    #[Route(
-        path: '/{_locale}/panier/supprimer/{idProduit}', // L'URL auquel répondra cette action sera donc /test
-        name: 'app_panier_supprimer',
-        requirements: ['_locale' => '%app.supported_locales%'],
-        defaults: ['_locale' => 'fr']
-    )]
-    #[Route('/supprimer/{id}', name: 'app_panier_supprimer')]
-    public function supprimer(int $id): Response
+    #[Route('/supprimer/{idProduit}', name: 'app_panier_supprimer')]
+    public function supprimer(int $idProduit): Response
     {
-        $produit = $this->boutiqueService->findProduitById($id);
-
-        if (!$produit) {
-            throw $this->createNotFoundException("Le produit d'id $id n'existe pas.");
-        }
-
-        $this->panierService->supprimerProduit($id);
-
+        $this->panierService->supprimerProduit($idProduit);
         return $this->redirectToRoute('app_panier_index');
     }
 
-
-    #[Route(
-        path: '/{_locale}/panier/vider', // L'URL auquel répondra cette action sera donc /test
-        name: 'app_panier_vider',
-        requirements: ['_locale' => '%app.supported_locales%'],
-        defaults: ['_locale' => 'fr']
-    )]
+    #[Route('/vider', name: 'app_panier_vider')]
     public function vider(): Response
     {
         $this->panierService->vider();
-
         return $this->redirectToRoute('app_panier_index');
     }
 
-    #[Route(
-        path: '/{_locale}/panier/vider', // L'URL auquel répondra cette action sera donc /test
-        name: 'app_panier_vider',
-        requirements: ['_locale' => '%app.supported_locales%'],
-        defaults: ['_locale' => 'fr']
-    )]
-    public function nombreProduits(PanierService $panier): Response {
-        $this->panierService->nombreProduits();
-        return $this->redirectToRoute('app_panier_index');
+    public function nombreProduits(PanierService $panier): Response
+    {
+        $nb = $panier->getNombreProduits();
+        // On renvoie juste le chiffre brut dans la réponse
+        return new Response((string)$nb);
     }
 }

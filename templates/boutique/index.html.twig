@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AfficherrayonController!{% endblock %}
+{% block title %}Nos Rayons{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ "app_boutique_index" }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/users/info/pub/2a/R4.01/TP/collero/src/Controller/AfficherrayonController.php</code></li>
-        <li>Your template at <code>/users/info/pub/2a/R4.01/TP/collero/templates/afficherrayon/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="container">
+        <h1 class="my-4 text-center">Bienvenue dans nos rayons</h1>
+        <div class="row">
+            {% for cat in categories %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {# On utilise asset() pour l'image #}
+                        <img src="{{ asset(cat.visuel) }}" class="card-img-top" alt="{{ cat.libelle }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ cat.libelle }}</h5>
+                            <p class="card-text">{{ cat.texte }}</p>
+                            {# Lien vers le rayon spécifique #}
+                            <a href="{{ path('app_boutique_rayon', {'idCategorie': cat.id}) }}" class="btn btn-primary">
+                                Voir les produits
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

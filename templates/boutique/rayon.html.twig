@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rayon {{ categorie.libelle }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_boutique_index') }}">Boutique</a></li>
+                <li class="breadcrumb-item active">{{ categorie.libelle }}</li>
+            </ol>
+        </nav>
+
+        <h1 class="mb-4">Rayon : {{ categorie.libelle }}</h1>
+        <p class="lead">{{ categorie.texte }}</p>
+
+        <div class="row">
+            {% for produit in produits %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ asset(produit.visuel) }}" class="card-img-top" alt="{{ produit.libelle }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ produit.libelle }}</h5>
+                            <p class="card-text text-muted">{{ produit.texte }}</p>
+                            <h4 class="text-primary">{{ produit.prix }} €</h4>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            {# Lien vers l'action ajouter du PanierController #}
+                            <a href="{{ path('app_panier_ajouter', {'idProduit': produit.id}) }}" class="btn btn-success btn-block">
+                                <i class="fas fa-cart-plus"></i> Ajouter au panier
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-warning">Aucun produit dans ce rayon pour le moment.</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

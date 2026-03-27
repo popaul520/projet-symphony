@@ -17,6 +17,50 @@
         <source>template.navbar.html.twig.Contact</source>
         <target>contact</target>
       </trans-unit>
+      <trans-unit id="L9qPwyb" resname="boutique.chercher.titre">
+        <source>boutique.chercher.titre</source>
+        <target>__boutique.chercher.titre</target>
+      </trans-unit>
+      <trans-unit id="B6PJzlm" resname="boutique.chercher.resultats">
+        <source>boutique.chercher.resultats</source>
+        <target>__boutique.chercher.resultats</target>
+      </trans-unit>
+      <trans-unit id="901w29O" resname="boutique.chercher.ajouter">
+        <source>boutique.chercher.ajouter</source>
+        <target>__boutique.chercher.ajouter</target>
+      </trans-unit>
+      <trans-unit id="zyothCQ" resname="boutique.chercher.aucun_resultat">
+        <source>boutique.chercher.aucun_resultat</source>
+        <target>__boutique.chercher.aucun_resultat</target>
+      </trans-unit>
+      <trans-unit id="qKTbwnx" resname="default.contact.titre_page">
+        <source>default.contact.titre_page</source>
+        <target>__default.contact.titre_page</target>
+      </trans-unit>
+      <trans-unit id="1r..Gqj" resname="default.contact.h1">
+        <source>default.contact.h1</source>
+        <target>__default.contact.h1</target>
+      </trans-unit>
+      <trans-unit id="nRp7w2l" resname="default.contact.description">
+        <source>default.contact.description</source>
+        <target>__default.contact.description</target>
+      </trans-unit>
+      <trans-unit id="zycX6UM" resname="default.contact.label_email">
+        <source>default.contact.label_email</source>
+        <target>__default.contact.label_email</target>
+      </trans-unit>
+      <trans-unit id="noIm1sF" resname="default.contact.label_lieu">
+        <source>default.contact.label_lieu</source>
+        <target>__default.contact.label_lieu</target>
+      </trans-unit>
+      <trans-unit id="ZgHgvQF" resname="template.navbar.panier">
+        <source>template.navbar.panier</source>
+        <target>__template.navbar.panier</target>
+      </trans-unit>
+      <trans-unit id="rOk3TD8" resname="template.navbar.rechercher">
+        <source>template.navbar.rechercher</source>
+        <target>__template.navbar.rechercher</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

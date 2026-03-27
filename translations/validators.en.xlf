@@ -689,6 +689,10 @@
         <source>Please enter a valid week.</source>
         <target>Please enter a valid week.</target>
       </trans-unit>
+      <trans-unit id="GXkVLtn" resname="The email {{ value }} is not a valid email.">
+        <source>The email {{ value }} is not a valid email.</source>
+        <target>__The email {{ value }} is not a valid email.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,3 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{# TODO #}
+{% block title %}
+    {% trans %}default.contact.titre_page{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>{% trans %}default.contact.h1{% endtrans %}</h1>
+
+        <p>{% trans %}default.contact.description{% endtrans %}</p>
+
+        <ul class="list-group w-50">
+            <li class="list-group-item">
+                <strong>{% trans %}default.contact.label_email{% endtrans %}</strong> : contact@ma-super-boutique.fr
+            </li>
+            <li class="list-group-item">
+                <strong>{% trans %}default.contact.label_lieu{% endtrans %}</strong> : IUT2 Grenoble - Département INFO
+            </li>
+        </ul>
+    </div>
+{% endblock %}

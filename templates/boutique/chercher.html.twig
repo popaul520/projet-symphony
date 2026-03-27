@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% trans %}boutique.chercher.titre{% endtrans %} "{{ recherche }}"
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_boutique_index') }}">Boutique</a></li>
+                <li class="breadcrumb-item active">Recherche</li>
+            </ol>
+        </nav>
+
+        <h1 class="mb-4">
+            {% trans %}boutique.chercher.resultats{% endtrans %} "{{ recherche }}"
+        </h1>
+
+        <div class="row">
+            {% for produit in produits %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ asset(produit.visuel) }}" class="card-img-top" alt="{{ produit.libelle }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ produit.libelle }}</h5>
+                            <p class="card-text text-muted">{{ produit.texte|slice(0, 100) }}...</p>
+                            <h4 class="text-primary">{{ produit.prix }} €</h4>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="{{ path('app_panier_ajouter', {'idProduit': produit.id}) }}" class="btn btn-success btn-block">
+                                <i class="fas fa-cart-plus"></i> {% trans %}boutique.chercher.ajouter{% endtrans %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> {% trans %}boutique.chercher.aucun_resultat{% endtrans %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('app_boutique_index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour à la boutique
+            </a>
+        </div>
+    </div>
+{% endblock %}
