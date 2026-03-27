@@ -46,14 +46,11 @@
 <script src="{{ asset('js/bootstrap-4/bootstrap.bundle.min.js') }}"></script>
 <script>
     $(function () {
-        // Activation tooltip bootstrap sur la page
         $('[data-toggle="tooltip"]').tooltip();
 
         $('#search-button').on('click', function() {
             onSearchClick($('#search-input').val());
         });
-
-        // Permet de valider la recherche avec la touche "Entrée"
         $('#search-input').on('keypress', function(e) {
             if(e.which === 13) {
                 e.preventDefault();
@@ -61,13 +58,9 @@
             }
         });
     });
-
     function onSearchClick(searchString) {
         if (searchString.length > 0) {
-            // Encodage pour les caractères spéciaux dans l'URL
             let encodedSearch = encodeURIComponent(searchString);
-
-
             let url = "{{ path('app_boutique_chercher', {'recherche': 'RECH_VAL'}) }}".replace('RECH_VAL', encodedSearch);
             // Redirection
             window.location.href = url;

@@ -17,8 +17,6 @@ final class UsagerController extends AbstractController
     #[Route('', name: 'app_usager_index', methods: ['GET'])]
     public function index(): Response
     {
-        // On ne fait plus $usagerRepository->find(1)
-        // On récupère l'objet Usager directement depuis la session de connexion
         $user = $this->getUser();
 
         if (!$user) {

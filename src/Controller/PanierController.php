@@ -24,7 +24,6 @@ final class PanierController extends AbstractController
     public function index(): Response
     {
         return $this->render('panier/index.html.twig', [
-            // On utilise 'items' pour correspondre à ton template Twig
             'items' => $this->panierService->getContenu(),
             'total' => $this->panierService->getTotal(),
         ]);
@@ -65,14 +64,14 @@ final class PanierController extends AbstractController
     public function nombreProduits(PanierService $panier): Response
     {
         $nb = $panier->getNombreProduits();
-        // On renvoie juste le chiffre brut dans la réponse
+        // On renvoie juste le chiffre
         return new Response((string)$nb);
     }
 
     #[Route('/panier/commander', name: 'app_panier_commander')]
     public function commander(PanierService $panierService, UsagerRepository $usagerRepo): Response
     {
-        // On récupère l'usager n°1 (temporaire avant le TP6)
+
         $usager = $usagerRepo->find(1);
 
         if (!$usager) {
