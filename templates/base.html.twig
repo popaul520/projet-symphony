@@ -17,6 +17,15 @@
     <link href="{{ asset('css/projet.css') }}" rel="stylesheet">
     {% block css %}{%  endblock %}
 </head>
+<div class="container mt-4">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
 <body>
 {% include "navbar.html.twig" %}
 <main role="main" class="container-fluid">
@@ -59,8 +68,7 @@
             let encodedSearch = encodeURIComponent(searchString);
 
 
-            let url = "{{ path('app_boutique_chercher', {'recherche': ''}) }}/" + encodedSearch;
-
+            let url = "{{ path('app_boutique_chercher', {'recherche': 'RECH_VAL'}) }}".replace('RECH_VAL', encodedSearch);
             // Redirection
             window.location.href = url;
         }

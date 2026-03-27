@@ -45,6 +45,7 @@
                             </a>
                         </td>
                     </tr>
+
                 {% endfor %}
                 </tbody>
                 <tfoot>
@@ -64,6 +65,10 @@
                     <i class="fas fa-credit-card"></i> Passer la commande
                 </button>
             </div>
+            <a href="{{ path('app_panier_commander') }}" class="btn btn-success">
+                <i class="fas fa-check"></i> Valider la commande
+            </a>
+
         {% endif %}
     </div>
 {% endblock %}

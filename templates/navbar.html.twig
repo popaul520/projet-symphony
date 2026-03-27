@@ -1,43 +1,72 @@
-{# barre de navigation  #}
+{# templates/navbar.html.twig #}
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-	<a class="navbar-brand" href="{{ path("app_default_index") }}">
-		<i class="fas fa-home"></i>
-		{%trans%}template.navbar.html.twig.Accueil{%endtrans%}
-	</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path("app_boutique_index") }}">
-					<i class="fas fa-store"></i>
-					{%trans%}template.navbar.html.twig.boutique{%endtrans%}
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path("contact") }}">
-					<i class="fas fa-comments"></i>
-					{%trans%}template.navbar.html.twig.Contact{%endtrans%}
-				</a>
-			</li>
-            <li class="nav-item">
+    <a class="navbar-brand" href="{{ path("app_default_index") }}">
+        <i class="fas fa-home"></i>
+        {% trans %}template.navbar.html.twig.Accueil{% endtrans %}
+    </a>
 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if app.request.attributes.get('_route') == 'app_boutique_index' %}active{% endif %}">
+                <a class="nav-link" href="{{ path("app_boutique_index") }}">
+                    <i class="fas fa-store"></i>
+                    {% trans %}template.navbar.html.twig.boutique{% endtrans %}
+                </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("contact") }}">
+                    <i class="fas fa-comments"></i>
+                    {% trans %}template.navbar.html.twig.Contact{% endtrans %}
+                </a>
+            </li>
+
             <li class="nav-item {% if app.request.attributes.get('_route') == 'app_panier_index' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('app_panier_index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    {# Traduction du libellé #}
                     {% trans %}panier{% endtrans %}
-
-                    {# Affichage du nombre de produits via le contrôleur imbriqué #}
                     <span class="badge badge-pill badge-danger">
-            {{ render(controller('App\\Controller\\PanierController::nombreProduits')) }}
-        </span>
+                        {{ render(controller('App\\Controller\\PanierController::nombreProduits')) }}
+                    </span>
                 </a>
             </li>
-		</ul>
-		<!-- Début champ de recherche -->
+
+            {# --- MENU USAGER --- #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsager" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i> Usager
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownUsager">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {# Si l'utilisateur est connecté #}
+                        <span class="dropdown-item-text text-info font-weight-bold">
+                            Bonjour {{ app.user.prenom }}
+                        </span>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    {% else %}
+                        {# Si l'utilisateur n'est pas connecté #}
+                        <a class="dropdown-item" href="{{ path('app_login') }}">
+                            <i class="fas fa-sign-in-alt"></i> Connexion
+                        </a>
+                        <a class="dropdown-item" href="{{ path('app_usager_new') }}">
+                            <i class="fas fa-user-plus"></i> Inscription
+                        </a>
+                    {% endif %}
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ path('app_usager_index') }}">
+                        <i class="fas fa-id-card"></i> Mon Profil
+                    </a>
+                </div>
+            </li>
+        </ul>
+
         <form class="form-inline my-2 my-lg-0 ml-3">
             <input id="search-input" class="form-control mr-sm-2" type="search"
                    placeholder="{% trans %}rechercher{% endtrans %}" aria-label="Search">
@@ -45,14 +74,8 @@
                 <i class="fas fa-search"></i>
             </button>
         </form>
-		<!-- Fin champ de recherche -->
-		<!-- Début menu des monnaies -->
-		{# TODO #}
-		<!-- Fin menu des monnaies -->
-		<!-- Début menu des langues -->
-		{# TODO #}
-		<!-- Fin Menu des langues -->
-        <ul class="navbar-nav">
+
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownLang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-globe"></i> {{ app.request.locale | upper }}
@@ -69,5 +92,5 @@
                 </div>
             </li>
         </ul>
-	</div>
+    </div>
 </nav>

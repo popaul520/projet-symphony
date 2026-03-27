@@ -11,31 +11,27 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
                 <th>Nom</th>
                 <th>Prenom</th>
-                <th>actions</th>
             </tr>
         </thead>
+
         <tbody>
-        {% for usager in usagers %}
+        {% if usager %}
             <tr>
                 <td>{{ usager.id }}</td>
                 <td>{{ usager.email }}</td>
-                <td>{{ usager.roles ? usager.roles|json_encode : '' }}</td>
-                <td>{{ usager.password }}</td>
-                <td>{{ usager.nom }}</td>
+                {# On affiche le premier rôle ou on transforme le tableau en texte #}
+                <td>{{ usager.roles|join(', ') }}</td>
                 <td>{{ usager.prenom }}</td>
-                <td>
-                    <a href="{{ path('app_usager_show', {'id': usager.id}) }}">show</a>
-                    <a href="{{ path('app_usager_edit', {'id': usager.id}) }}">edit</a>
-                </td>
+                <td>{{ usager.nom }}</td>
+
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="6">L'usager n°1 n'existe pas dans la base de données.</td>
             </tr>
-        {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 {% endblock %}

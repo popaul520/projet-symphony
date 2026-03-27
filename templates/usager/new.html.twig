@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Usager{% endblock %}
+{% block title %}Inscription Usager{% endblock %}
 
 {% block body %}
-    <h1>Create new Usager</h1>
+    <div class="container mt-5">
+        <h1>Créer un nouveau compte</h1>
 
-    {{ include('usager/_form.html.twig') }}
+        {{ form_start(form) }}
+        {# Affiche tous les champs email passwor nom prenom #}
+        {{ form_widget(form) }}
 
+        <button class="btn btn-success mt-3">
+            <i class="fas fa-check"></i> Valider l'inscription
+        </button>
+        {{ form_end(form) }}
+
+        <hr>
+        <a href="{{ path('app_usager_index') }}" class="btn btn-secondary">
+            Retour à l'accueil
+        </a>
+    </div>
 {% endblock %}

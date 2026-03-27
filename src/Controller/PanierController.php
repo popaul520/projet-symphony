@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Repository\UsagerRepository;
 use App\Service\BoutiqueService;
 use App\Service\PanierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,4 +68,25 @@ final class PanierController extends AbstractController
         // On renvoie juste le chiffre brut dans la réponse
         return new Response((string)$nb);
     }
+
+    #[Route('/panier/commander', name: 'app_panier_commander')]
+    public function commander(PanierService $panierService, UsagerRepository $usagerRepo): Response
+    {
+        // On récupère l'usager n°1 (temporaire avant le TP6)
+        $usager = $usagerRepo->find(1);
+
+        if (!$usager) {
+            $this->addFlash('danger', 'Veuillez d\'abord créer un usager (ID 1) via l\'inscription.');
+            return $this->redirectToRoute('app_panier_index');
+        }
+
+        $commande = $panierService->panierToCommande($usager);
+
+        return $this->render('panier/commande.html.twig', [
+            'commande' => $commande,
+            'usager' => $usager
+        ]);
+    }
+
+
 }

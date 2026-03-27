@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Merci pour votre commande !</h1>
+        <p>Félicitations <strong>{{ usager.prenom }} {{ usager.nom }}</strong>,</p>
+        <p>Votre commande n°<strong>{{ commande.id }}</strong> a bien été enregistrée le {{ commande.dateCreation|date('d/m/Y H:i') }}.</p>
+
+        <a href="{{ path('app_boutique_index') }}" class="btn btn-primary">Retour à la boutique</a>
+    </div>
+{% endblock %}
